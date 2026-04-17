@@ -418,6 +418,15 @@ async function submitForm(){
 }
 
 function showSuccess(){
+  const nombre = document.getElementById('nombre').value.trim();
+  const negocio = document.getElementById('negocio').value.trim();
+  const whatsapp = document.getElementById('whatsapp').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const plan = new URLSearchParams(window.location.search).get('plan') || '';
+
+  const msg = `Hola! Acabo de completar el onboarding en Bia Agency 🚀\n\n*Nombre:* ${nombre}\n*Negocio:* ${negocio}\n*WhatsApp:* ${whatsapp}\n*Email:* ${email}${plan ? '\n*Plan:* ' + plan : ''}`;
+  document.getElementById('wa-success-btn').href = `https://wa.me/573172409416?text=${encodeURIComponent(msg)}`;
+
   document.getElementById('form-section').classList.add('hidden');
   document.getElementById('success-screen').classList.remove('hidden');
   launchConfetti();window.scrollTo({top:0,behavior:'smooth'});
