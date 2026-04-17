@@ -16,10 +16,11 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#8930D6","pr
 *{box-sizing:border-box;}::selection{background:#8930D6;color:#fff;}
 .step{display:none;}.step.active{display:block;}
 .progress-bar{transition:width .5s cubic-bezier(.4,0,.2,1);}
-.agx-input{background:#1a1a1a;border:1px solid #3a3a3a;color:#f0f0f0;padding:14px 16px;width:100%;font-family:'Space Grotesk',monospace;font-size:13px;text-transform:uppercase;letter-spacing:.07em;transition:border-color .2s;outline:none;-webkit-text-fill-color:#f0f0f0;}
-.agx-input:focus{border-color:#8930D6;background:#1a1a1a;}
-.agx-input::placeholder{color:#555;-webkit-text-fill-color:#555;}
-.agx-input:-webkit-autofill{-webkit-box-shadow:0 0 0 1000px #1a1a1a inset;-webkit-text-fill-color:#f0f0f0;}
+.agx-input{background:#1a1a1a !important;border:1px solid #3a3a3a;color:#f0f0f0 !important;padding:14px 16px;width:100%;font-family:'Space Grotesk',monospace;font-size:13px;text-transform:uppercase;letter-spacing:.07em;transition:border-color .2s;outline:none;-webkit-text-fill-color:#f0f0f0 !important;}
+.agx-input:focus{border-color:#8930D6;background:#1a1a1a !important;}
+.agx-input:not(:focus){background:#1a1a1a !important;color:#f0f0f0 !important;-webkit-text-fill-color:#f0f0f0 !important;}
+.agx-input::placeholder{color:#555;-webkit-text-fill-color:#555 !important;}
+.agx-input:-webkit-autofill,.agx-input:-webkit-autofill:focus,.agx-input:-webkit-autofill:hover{-webkit-box-shadow:0 0 0 1000px #1a1a1a inset !important;-webkit-text-fill-color:#f0f0f0 !important;}
 select.agx-input option{background:#1a1a1a;color:#f0f0f0;}
 .agx-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238930D6' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;}
 .option-btn{background:#1a1a1a;border:1px solid #3a3a3a;color:#888;padding:12px 16px;cursor:pointer;transition:all .2s;font-family:'Space Grotesk',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;text-align:left;}
