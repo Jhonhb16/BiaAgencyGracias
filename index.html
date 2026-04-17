@@ -408,6 +408,8 @@ async function submitForm(){
   try{
     await fetch('https://script.google.com/macros/s/AKfycbzf5OFkRlm4iTzqIHxcRONTU6-W0mySXNWOs_TWKzJSyF8t8jO-SQ0ThyghfDDycW45/exec',{
       method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
       body:JSON.stringify(sheetsData)
     });
   }catch(e){console.warn('Sheets error:',e);}
