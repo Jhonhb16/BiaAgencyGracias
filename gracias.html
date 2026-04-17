@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bienvenido a Bia Agency — Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script>
+tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#8930D6","primary-dim":"#6B26AB","background":"#080808","surface":"#080808","surface-container":"#0f0f0f","surface-container-high":"#141414","surface-container-highest":"#1c1c1c","on-surface":"#f0f0f0","on-surface-variant":"#888888","outline-variant":"#2a2a2a"},fontFamily:{"headline":["Inter","sans-serif"],"body":["Inter","sans-serif"],"label":["Space Grotesk","monospace"]}}}}
+</script>
+<style>
+*{box-sizing:border-box;}::selection{background:#8930D6;color:#fff;}
+.step{display:none;}.step.active{display:block;}
+.progress-bar{transition:width .5s cubic-bezier(.4,0,.2,1);}
+.agx-input{background:#1a1a1a;border:1px solid #3a3a3a;color:#f0f0f0;padding:14px 16px;width:100%;font-family:'Space Grotesk',monospace;font-size:13px;text-transform:uppercase;letter-spacing:.07em;transition:border-color .2s;outline:none;-webkit-text-fill-color:#f0f0f0;}
+.agx-input:focus{border-color:#8930D6;background:#1a1a1a;}
+.agx-input::placeholder{color:#555;-webkit-text-fill-color:#555;}
+.agx-input:-webkit-autofill{-webkit-box-shadow:0 0 0 1000px #1a1a1a inset;-webkit-text-fill-color:#f0f0f0;}
+select.agx-input option{background:#1a1a1a;color:#f0f0f0;}
+.agx-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238930D6' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;}
+.option-btn{background:#1a1a1a;border:1px solid #3a3a3a;color:#888;padding:12px 16px;cursor:pointer;transition:all .2s;font-family:'Space Grotesk',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;text-align:left;}
+.option-btn:hover{border-color:#8930D6;color:#f0f0f0;}
+.option-btn.selected{background:rgba(137,48,214,0.12);border-color:#8930D6;color:#f0f0f0;}
+.checkbox-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#1a1a1a;border:1px solid #3a3a3a;cursor:pointer;transition:all .2s;}
+.checkbox-item:hover,.checkbox-item.checked{border-color:#8930D6;}
+.checkbox-item.checked{background:rgba(137,48,214,0.08);}
+.checkbox-box{width:18px;height:18px;border:2px solid #3a3a3a;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.checkbox-item.checked .checkbox-box{background:#8930D6;border-color:#8930D6;}
+.step-dot{width:10px;height:10px;background:#1c1c1c;border:2px solid #3a3a3a;border-radius:50%;transition:all .3s;}
+.step-dot.active{background:#8930D6;border-color:#8930D6;box-shadow:0 0 8px rgba(137,48,214,.5);}
+.step-dot.done{background:#8930D6;border-color:#8930D6;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}.step.active{animation:fadeUp .3s ease;}
+@keyframes confetti{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.conf{position:fixed;width:8px;height:8px;border-radius:2px;animation:confetti linear forwards;pointer-events:none;}
+@media(max-width:768px){.text-6xl{font-size:2rem!important;}.text-5xl{font-size:1.8rem!important;}.text-4xl{font-size:1.6rem!important;}}
+</style>
+</head>
+<body class="bg-background text-on-surface font-body min-h-screen">
+
+<!-- CONFETTI CANVAS (hidden) -->
+<div id="confetti-container" class="fixed inset-0 pointer-events-none z-50 overflow-hidden"></div>
+
+<!-- NAV -->
+<nav class="bg-black/80 backdrop-blur-xl border-b border-outline-variant/20 px-5 py-3 flex items-center justify-between sticky top-0 z-40">
+  <a href="index.html"><img src="logo_bia.jpeg" alt="Bia Agency" class="h-10 w-auto object-contain"/></a>
+  <span class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Onboarding · Post-compra</span>
+</nav>
+
+<!-- MAIN WRAPPER -->
+<div class="max-w-3xl mx-auto px-5 md:px-8 py-12 md:py-20">
+
+  <!-- SUCCESS SCREEN (hidden by default) -->
+  <div id="success-screen" class="hidden text-center space-y-8 py-16">
+    <div class="text-6xl">🚀</div>
+    <div>
+      <span class="font-label text-primary uppercase tracking-[0.3em] text-xs block mb-4">Todo listo</span>
+      <h1 class="text-3xl md:text-6xl font-black uppercase tracking-tighter italic leading-none mb-4">¡Bienvenido al sistema!</h1>
+      <p class="text-on-surface-variant text-base md:text-xl max-w-xl mx-auto">Recibimos toda tu información. En las próximas <strong class="text-white">24–48 horas</strong> te contactamos por WhatsApp para arrancar.</p>
+    </div>
+    <div class="bg-surface-container-highest border border-primary/20 p-6 md:p-10 text-left space-y-4">
+      <h3 class="font-black uppercase text-base">¿Qué sigue?</h3>
+      <div class="space-y-3">
+        <div class="flex items-start gap-4"><span class="font-label text-primary font-bold text-sm">01</span><p class="text-sm text-on-surface-variant font-bold">Revisamos tu información y preparamos el diagnóstico inicial</p></div>
+        <div class="flex items-start gap-4"><span class="font-label text-primary font-bold text-sm">02</span><p class="text-sm text-on-surface-variant font-bold">Te contactamos por WhatsApp para confirmar accesos</p></div>
+        <div class="flex items-start gap-4"><span class="font-label text-primary font-bold text-sm">03</span><p class="text-sm text-on-surface-variant font-bold">Arrancamos con la construcción de estructura en la Semana 1</p></div>
+      </div>
+    </div>
+    <a id="wa-success-btn" href="https://wa.me/TU_NUMERO?text=Hola%2C%20acabo%20de%20completar%20mi%20onboarding%20en%20Bia%20Agency%20%F0%9F%9A%80" target="_blank" class="inline-flex items-center gap-3 text-white font-black uppercase tracking-widest text-sm px-8 py-4 hover:opacity-90 transition-opacity" style="background:#25D366;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Confirmar por WhatsApp
+    </a>
+  </div>
+
+  <!-- FORM -->
+  <div id="form-section">
+    <!-- HEADER -->
+    <div class="mb-10 md:mb-14">
+      <span class="font-label text-primary uppercase tracking-[0.3em] text-xs block mb-4">Paso final · Post-compra</span>
+      <h1 class="text-3xl md:text-5xl font-black uppercase tracking-tighter italic leading-none mb-4">Cuéntanos sobre<br/><span class="text-primary">tu negocio</span></h1>
+      <p class="text-on-surface-variant text-sm md:text-base">Esta información nos permite arrancar desde el primer día con contexto real. Tarda ~5 minutos.</p>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="mb-8 md:mb-12">
+      <div class="flex items-center justify-between mb-4">
+        <span class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Progreso</span>
+        <span class="font-label text-[10px] uppercase tracking-widest text-primary" id="step-label">Paso 1 de 5</span>
+      </div>
+      <div class="h-1 bg-surface-container-highest relative overflow-hidden">
+        <div class="progress-bar h-full bg-primary absolute left-0 top-0" id="progress-bar" style="width:20%"></div>
+      </div>
+      <div class="flex justify-between mt-3">
+        <div class="step-dot active" id="dot-1"></div>
+        <div class="step-dot" id="dot-2"></div>
+        <div class="step-dot" id="dot-3"></div>
+        <div class="step-dot" id="dot-4"></div>
+        <div class="step-dot" id="dot-5"></div>
+      </div>
+    </div>
+
+    <!-- ERROR MSG -->
+    <div id="error-msg" class="hidden mb-6 bg-red-900/20 border border-red-500/30 p-4">
+      <p class="font-label text-[11px] uppercase tracking-widest text-red-400" id="error-text">Por favor completa los campos requeridos.</p>
+    </div>
+
+    <!-- STEP 1: DATOS BÁSICOS -->
+    <div class="step active" id="step-1">
+      <div class="mb-8"><h2 class="text-xl md:text-2xl font-black uppercase italic mb-1">Datos básicos</h2><p class="text-on-surface-variant text-xs font-label uppercase tracking-widest">¿Con quién trabajamos?</p></div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="space-y-1 md:col-span-2"><label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-2">Nombre del negocio *</label><input type="text" class="agx-input" placeholder="Ej: Mi Tienda Online" id="negocio"/></div>
+        <div class="space-y-1"><label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-2">Tu nombre *</label><input type="text" class="agx-input" placeholder="Nombre y apellido" id="nombre"/></div>
+        <div class="space-y-1"><label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-2">Email *</label><input type="email" class="agx-input" placeholder="tu@email.com" id="email"/></div>
+        <div class="space-y-1"><label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-2">WhatsApp (con código país) *</label><input type="tel" class="agx-input" placeholder="+57 300 000 0000" id="whatsapp"/></div>
+        <div class="space-y-1">
+          <label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-2">País *</label>
+          <select class="agx-input agx-select" id="pais">
+            <option value="">Selecciona tu país</option>
+            <option>Colombia</option><option>México</option><option>Chile</option><option>Ecuador</option><option>Perú</option><option>Uruguay</option><option>República Dominicana</option><option>Estados Unidos</option><option>Otro</option>
+          </select>
+        </div>
+        <div class="space-y-1 md:col-span-2"><label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-2">Sitio web / Tienda online</label><input type="url" class="agx-input" placeholder="https://mitienda.com" id="website"/></div>
+      </div>
+    </div>
+
+    <!-- STEP 2: EL NEGOCIO -->
+    <div class="step" id="step-2">
+      <div class="mb-8"><h2 class="text-xl md:text-2xl font-black uppercase italic mb-1">El negocio</h2><p class="text-on-surface-variant text-xs font-label uppercase tracking-widest">Cuéntanos qué vendes</p></div>
+      <div class="space-y-8">
+        <div>
+          <label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-3">Tipo de negocio *</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="tipo-negocio">
+            <button type="button" class="option-btn" onclick="selectOption(this,'tipo-negocio')">E-commerce propio (Shopify, Woo...)</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'tipo-negocio')">Dropshipping</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'tipo-negocio')">Marketplace (MeLi, Amazon...)</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'tipo-negocio')">Producto físico + tienda propia</button>
+          </div>
+        </div>
+        <div>
+          <label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-3">Categoría / nicho *</label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="categoria">
+            <button type="button" class="option-btn" onclick="selectOption(this,'categoria')">Moda y ropa</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'categoria')">Belleza y skincare</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'categoria')">Salud y suplementos</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'categoria')">Hogar y decoración</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'categoria')">Electrónica / gadgets</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'categoria')">Deporte y fitness</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'categoria')">Accesorios / joyería</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'categoria')">Mascotas</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'categoria')">Infantil / bebé</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'categoria')">Alimentación</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'categoria')">Servicios digitales</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'categoria')">Otro</button>
+          </div>
+        </div>
+        <div><label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-2">Describe brevemente tu producto principal *</label><textarea class="agx-input" rows="3" placeholder="¿QUÉ VENDES Y POR QUÉ LO ELIGE LA GENTE?" id="producto" style="resize:none;"></textarea></div>
+        <div><label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-2">¿Quién es tu cliente ideal?</label><textarea class="agx-input" rows="2" placeholder="EDAD, GÉNERO, INTERESES, PAÍS..." id="cliente-ideal" style="resize:none;"></textarea></div>
+      </div>
+    </div>
+
+    <!-- STEP 3: SITUACIÓN ACTUAL -->
+    <div class="step" id="step-3">
+      <div class="mb-8"><h2 class="text-xl md:text-2xl font-black uppercase italic mb-1">Situación actual</h2><p class="text-on-surface-variant text-xs font-label uppercase tracking-widest">Dónde estás hoy</p></div>
+      <div class="space-y-8">
+        <div>
+          <label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-3">Ventas mensuales actuales (aprox) *</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="ventas-mes">
+            <button type="button" class="option-btn" onclick="selectOption(this,'ventas-mes')">Menos de USD 1.000</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'ventas-mes')">USD 1.000 – 5.000</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'ventas-mes')">USD 5.000 – 15.000</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'ventas-mes')">USD 15.000 – 50.000</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'ventas-mes')">Más de USD 50.000</button>
+          </div>
+        </div>
+        <div>
+          <label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-3">Inversión mensual en pauta (aprox) *</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="inversion-pauta">
+            <button type="button" class="option-btn" onclick="selectOption(this,'inversion-pauta')">Menos de USD 300</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'inversion-pauta')">USD 300 – 1.000</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'inversion-pauta')">USD 1.000 – 3.000</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'inversion-pauta')">USD 3.000 – 8.000</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'inversion-pauta')">Más de USD 8.000</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'inversion-pauta')">No estoy pautando aún</button>
+          </div>
+        </div>
+        <div>
+          <label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-3">Plataformas donde pautas actualmente</label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="plataformas-checks">
+            <div class="checkbox-item" onclick="toggleCheck(this)"><div class="checkbox-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" class="hidden check-icon"><path d="M1 4l3 3 5-5" stroke="white" stroke-width="2"/></svg></div><span class="font-label text-xs uppercase">Meta Ads</span></div>
+            <div class="checkbox-item" onclick="toggleCheck(this)"><div class="checkbox-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" class="hidden check-icon"><path d="M1 4l3 3 5-5" stroke="white" stroke-width="2"/></svg></div><span class="font-label text-xs uppercase">Google Ads</span></div>
+            <div class="checkbox-item" onclick="toggleCheck(this)"><div class="checkbox-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" class="hidden check-icon"><path d="M1 4l3 3 5-5" stroke="white" stroke-width="2"/></svg></div><span class="font-label text-xs uppercase">TikTok Ads</span></div>
+            <div class="checkbox-item" onclick="toggleCheck(this)"><div class="checkbox-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" class="hidden check-icon"><path d="M1 4l3 3 5-5" stroke="white" stroke-width="2"/></svg></div><span class="font-label text-xs uppercase">Orgánico</span></div>
+            <div class="checkbox-item" onclick="toggleCheck(this)"><div class="checkbox-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" class="hidden check-icon"><path d="M1 4l3 3 5-5" stroke="white" stroke-width="2"/></svg></div><span class="font-label text-xs uppercase">Influencers</span></div>
+            <div class="checkbox-item" onclick="toggleCheck(this)"><div class="checkbox-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" class="hidden check-icon"><path d="M1 4l3 3 5-5" stroke="white" stroke-width="2"/></svg></div><span class="font-label text-xs uppercase">Ninguna aún</span></div>
+          </div>
+        </div>
+        <div><label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-2">¿Cuál es tu ROAS actual? (si tienes datos)</label><input type="text" class="agx-input" placeholder="EJ: ×3.5 O 'NO SÉ'" id="roas-actual"/></div>
+      </div>
+    </div>
+
+    <!-- STEP 4: OBJETIVOS -->
+    <div class="step" id="step-4">
+      <div class="mb-8"><h2 class="text-xl md:text-2xl font-black uppercase italic mb-1">Objetivos</h2><p class="text-on-surface-variant text-xs font-label uppercase tracking-widest">¿A dónde quieres llegar?</p></div>
+      <div class="space-y-8">
+        <div>
+          <label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-3">Objetivo principal con Bia Agency *</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="objetivo-principal">
+            <button type="button" class="option-btn" onclick="selectOption(this,'objetivo-principal')">Escalar ventas constantemente</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'objetivo-principal')">Mejorar ROAS y rentabilidad</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'objetivo-principal')">Salir del estancamiento</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'objetivo-principal')">Construir sistema predecible</button>
+          </div>
+        </div>
+        <div>
+          <label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-3">¿En qué horizonte de tiempo esperas resultados?</label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2" id="horizonte">
+            <button type="button" class="option-btn" onclick="selectOption(this,'horizonte')">1 mes</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'horizonte')">2–3 meses</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'horizonte')">3–6 meses</button>
+          </div>
+        </div>
+        <div><label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-2">¿Cuál es tu mayor problema hoy? *</label><textarea class="agx-input" rows="4" placeholder="DESCRÍBELO CON DETALLE. ¿QUÉ NO ESTÁ FUNCIONANDO? ¿QUÉ HAS INTENTADO?" id="mayor-problema" style="resize:none;"></textarea></div>
+        <div>
+          <label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-3">¿Tienes stock para escalar?</label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2" id="stock">
+            <button type="button" class="option-btn" onclick="selectOption(this,'stock')">Sí, tengo stock amplio</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'stock')">Sí, pero limitado</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'stock')">Es producto digital/servicio</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: ÚLTIMOS DETALLES -->
+    <div class="step" id="step-5">
+      <div class="mb-8"><h2 class="text-xl md:text-2xl font-black uppercase italic mb-1">Últimos detalles</h2><p class="text-on-surface-variant text-xs font-label uppercase tracking-widest">Para arrancar desde el día 1</p></div>
+      <div class="space-y-8">
+        <div>
+          <label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-3">¿Qué accesos tienes disponibles para compartir?</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="accesos-checks">
+            <div class="checkbox-item" onclick="toggleCheck(this)"><div class="checkbox-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" class="hidden check-icon"><path d="M1 4l3 3 5-5" stroke="white" stroke-width="2"/></svg></div><span class="font-label text-xs uppercase">Acceso Meta Business</span></div>
+            <div class="checkbox-item" onclick="toggleCheck(this)"><div class="checkbox-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" class="hidden check-icon"><path d="M1 4l3 3 5-5" stroke="white" stroke-width="2"/></svg></div><span class="font-label text-xs uppercase">Acceso Google Ads</span></div>
+            <div class="checkbox-item" onclick="toggleCheck(this)"><div class="checkbox-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" class="hidden check-icon"><path d="M1 4l3 3 5-5" stroke="white" stroke-width="2"/></svg></div><span class="font-label text-xs uppercase">Analytics / GA4</span></div>
+            <div class="checkbox-item" onclick="toggleCheck(this)"><div class="checkbox-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" class="hidden check-icon"><path d="M1 4l3 3 5-5" stroke="white" stroke-width="2"/></svg></div><span class="font-label text-xs uppercase">Shopify / WooCommerce</span></div>
+            <div class="checkbox-item" onclick="toggleCheck(this)"><div class="checkbox-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" class="hidden check-icon"><path d="M1 4l3 3 5-5" stroke="white" stroke-width="2"/></svg></div><span class="font-label text-xs uppercase">Pixel de Meta instalado</span></div>
+            <div class="checkbox-item" onclick="toggleCheck(this)"><div class="checkbox-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" class="hidden check-icon"><path d="M1 4l3 3 5-5" stroke="white" stroke-width="2"/></svg></div><span class="font-label text-xs uppercase">Datos de conversiones</span></div>
+            <div class="checkbox-item" onclick="toggleCheck(this)"><div class="checkbox-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" class="hidden check-icon"><path d="M1 4l3 3 5-5" stroke="white" stroke-width="2"/></svg></div><span class="font-label text-xs uppercase">Catálogo de productos</span></div>
+            <div class="checkbox-item" onclick="toggleCheck(this)"><div class="checkbox-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" class="hidden check-icon"><path d="M1 4l3 3 5-5" stroke="white" stroke-width="2"/></svg></div><span class="font-label text-xs uppercase">Imágenes y materiales</span></div>
+          </div>
+        </div>
+        <div>
+          <label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-3">¿Trabajaste antes con una agencia?</label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2" id="agencia-previa">
+            <button type="button" class="option-btn" onclick="selectOption(this,'agencia-previa')">No, primera vez</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'agencia-previa')">Sí, con buenos resultados</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'agencia-previa')">Sí, sin buenos resultados</button>
+          </div>
+        </div>
+        <div>
+          <label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-3">¿Cómo llegaste a Bia Agency?</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="como-llego">
+            <button type="button" class="option-btn" onclick="selectOption(this,'como-llego')">Instagram de Bianca</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'como-llego')">Recomendación personal</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'como-llego')">Búsqueda en Google</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'como-llego')">Anuncio / publicidad</button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'como-llego')">Otro</button>
+          </div>
+        </div>
+        <div><label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-2">Notas adicionales (opcional)</label><textarea class="agx-input" rows="3" placeholder="ALGO MÁS QUE DEBAMOS SABER ANTES DE ARRANCAR..." id="notas" style="resize:none;"></textarea></div>
+      </div>
+    </div>
+
+    <!-- NAVIGATION BUTTONS -->
+    <div class="flex items-center justify-between mt-10 md:mt-14 pt-8 border-t border-outline-variant/20">
+      <button type="button" id="btn-prev" onclick="prevStep()" class="hidden font-label text-[11px] uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors px-4 py-3 border border-outline-variant hover:border-primary">← Anterior</button>
+      <div class="flex-1"></div>
+      <button type="button" id="btn-next" onclick="nextStep()" class="bg-primary text-white font-black uppercase tracking-widest text-sm px-8 md:px-12 py-4 hover:bg-primary-dim transition-colors">Continuar →</button>
+      <button type="button" id="btn-submit" onclick="submitForm()" class="hidden bg-primary text-white font-black uppercase tracking-widest text-sm px-8 md:px-12 py-4 hover:bg-primary-dim transition-colors">Enviar y arrancar 🚀</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentStep=1;const totalSteps=5;
+
+function updateUI(){
+  document.querySelectorAll('.step').forEach((s,i)=>s.classList.toggle('active',i+1===currentStep));
+  document.getElementById('step-label').textContent=`Paso ${currentStep} de ${totalSteps}`;
+  document.getElementById('progress-bar').style.width=`${(currentStep/totalSteps)*100}%`;
+  for(let i=1;i<=totalSteps;i++){const d=document.getElementById(`dot-${i}`);d.classList.toggle('active',i===currentStep);d.classList.toggle('done',i<currentStep);}
+  document.getElementById('btn-prev').classList.toggle('hidden',currentStep===1);
+  document.getElementById('btn-next').classList.toggle('hidden',currentStep===totalSteps);
+  document.getElementById('btn-submit').classList.toggle('hidden',currentStep!==totalSteps);
+  hideError();window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showError(msg){const e=document.getElementById('error-msg');e.classList.remove('hidden');document.getElementById('error-text').textContent=msg;}
+function hideError(){document.getElementById('error-msg').classList.add('hidden');}
+
+function validate(){
+  if(currentStep===1){
+    if(!document.getElementById('negocio').value.trim()){showError('Ingresa el nombre de tu negocio.');return false;}
+    if(!document.getElementById('nombre').value.trim()){showError('Ingresa tu nombre.');return false;}
+    if(!document.getElementById('email').value.includes('@')){showError('Ingresa un email válido.');return false;}
+    if(!document.getElementById('whatsapp').value.trim()){showError('Ingresa tu número de WhatsApp.');return false;}
+    if(!document.getElementById('pais').value){showError('Selecciona tu país.');return false;}
+  }
+  if(currentStep===2){
+    if(!document.querySelector('#tipo-negocio .selected')){showError('Selecciona el tipo de negocio.');return false;}
+    if(!document.querySelector('#categoria .selected')){showError('Selecciona tu categoría.');return false;}
+    if(!document.getElementById('producto').value.trim()){showError('Describe tu producto principal.');return false;}
+  }
+  if(currentStep===3){
+    if(!document.querySelector('#ventas-mes .selected')){showError('Selecciona tu rango de ventas.');return false;}
+    if(!document.querySelector('#inversion-pauta .selected')){showError('Selecciona tu inversión en pauta.');return false;}
+  }
+  if(currentStep===4){
+    if(!document.querySelector('#objetivo-principal .selected')){showError('Selecciona tu objetivo principal.');return false;}
+    if(!document.getElementById('mayor-problema').value.trim()){showError('Cuéntanos tu mayor problema actual.');return false;}
+  }
+  return true;
+}
+
+function nextStep(){if(validate()){currentStep++;updateUI();}}
+function prevStep(){currentStep--;updateUI();}
+
+function selectOption(btn,group){
+  document.querySelectorAll(`#${group} .option-btn`).forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');hideError();
+}
+
+function toggleCheck(item){
+  item.classList.toggle('checked');
+  const icon=item.querySelector('.check-icon');icon.classList.toggle('hidden',!item.classList.contains('checked'));
+}
+
+function getCheckedValues(container){
+  return Array.from(document.querySelectorAll(`#${container} .checkbox-item.checked`)).map(i=>i.querySelector('span').textContent).join(', ');
+}
+
+function getSelected(group){
+  const el=document.querySelector(`#${group} .selected`);return el?el.textContent.trim():'N/A';
+}
+
+async function submitForm(){
+  if(!validate())return;
+  const btn=document.getElementById('btn-submit');
+  btn.textContent='Enviando…';btn.disabled=true;
+
+  const data=new FormData();
+  data.append('negocio',document.getElementById('negocio').value);
+  data.append('nombre',document.getElementById('nombre').value);
+  data.append('email',document.getElementById('email').value);
+  data.append('whatsapp',document.getElementById('whatsapp').value);
+  data.append('pais',document.getElementById('pais').value);
+  data.append('website',document.getElementById('website').value||'N/A');
+  data.append('tipo_negocio',getSelected('tipo-negocio'));
+  data.append('categoria',getSelected('categoria'));
+  data.append('producto',document.getElementById('producto').value);
+  data.append('cliente_ideal',document.getElementById('cliente-ideal').value||'N/A');
+  data.append('ventas_mes',getSelected('ventas-mes'));
+  data.append('inversion_pauta',getSelected('inversion-pauta'));
+  data.append('plataformas',getCheckedValues('plataformas-checks')||'Ninguna especificada');
+  data.append('roas_actual',document.getElementById('roas-actual').value||'N/A');
+  data.append('objetivo_principal',getSelected('objetivo-principal'));
+  data.append('horizonte',getSelected('horizonte'));
+  data.append('mayor_problema',document.getElementById('mayor-problema').value);
+  data.append('stock',getSelected('stock'));
+  data.append('accesos',getCheckedValues('accesos-checks')||'Ninguno especificado');
+  data.append('agencia_previa',getSelected('agencia-previa'));
+  data.append('como_llego',getSelected('como-llego'));
+  data.append('notas',document.getElementById('notas').value||'Sin notas');
+  data.append('plan', new URLSearchParams(window.location.search).get('plan')||'No especificado');
+  data.append('fuente','bia-agency-onboarding');
+
+  try{
+    await fetch('https://iagentflow.pro/api/v1/leads/website_form',{method:'POST',body:data});
+  }catch(e){console.warn('CRM error:',e);}
+
+  showSuccess();
+}
+
+function showSuccess(){
+  document.getElementById('form-section').classList.add('hidden');
+  document.getElementById('success-screen').classList.remove('hidden');
+  launchConfetti();window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function launchConfetti(){
+  const colors=['#8930D6','#B86EFF','#ffffff','#6B26AB','#00D4E8'];
+  const c=document.getElementById('confetti-container');
+  for(let i=0;i<80;i++){
+    const el=document.createElement('div');
+    el.className='conf';
+    el.style.cssText=`left:${Math.random()*100}vw;top:-20px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()*.8}s;transform:rotate(${Math.random()*360}deg);width:${6+Math.random()*6}px;height:${6+Math.random()*6}px;border-radius:${Math.random()>0.5?'50%':'2px'};`;
+    c.appendChild(el);setTimeout(()=>el.remove(),(3+Math.random()*2)*1000);
+  }
+}
+</script>
+</body>
+</html>
