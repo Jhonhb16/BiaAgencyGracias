@@ -380,6 +380,37 @@ async function submitForm(){
     await fetch('https://iagentflow.pro/api/v1/leads/website_form',{method:'POST',body:data});
   }catch(e){console.warn('CRM error:',e);}
 
+  const sheetsData={
+    negocio:document.getElementById('negocio').value,
+    nombre:document.getElementById('nombre').value,
+    email:document.getElementById('email').value,
+    whatsapp:document.getElementById('whatsapp').value,
+    pais:document.getElementById('pais').value,
+    web:document.getElementById('website').value||'',
+    tipoNegocio:getSelected('tipo-negocio'),
+    categorias:getSelected('categoria'),
+    producto:document.getElementById('producto').value,
+    clienteIdeal:document.getElementById('cliente-ideal').value||'',
+    ventasMensuales:getSelected('ventas-mes'),
+    inversionPauta:getSelected('inversion-pauta'),
+    plataformas:getCheckedValues('plataformas-checks')||'',
+    roas:document.getElementById('roas-actual').value||'',
+    objetivo:getSelected('objetivo-principal'),
+    horizonte:getSelected('horizonte'),
+    problema:document.getElementById('mayor-problema').value,
+    stock:getSelected('stock'),
+    accesos:getCheckedValues('accesos-checks')||'',
+    agenciaPrevia:getSelected('agencia-previa'),
+    comoLlego:getSelected('como-llego'),
+    notas:document.getElementById('notas').value||''
+  };
+  try{
+    await fetch('https://script.google.com/macros/s/AKfycbzf5OFkRlm4iTzqIHxcRONTU6-W0mySXNWOs_TWKzJSyF8t8jO-SQ0ThyghfDDycW45/exec',{
+      method:'POST',
+      body:JSON.stringify(sheetsData)
+    });
+  }catch(e){console.warn('Sheets error:',e);}
+
   showSuccess();
 }
 
