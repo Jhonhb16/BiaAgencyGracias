@@ -60,13 +60,29 @@ select.agx-input option{background:#1a1a1a;color:#f0f0f0;}
     <div>
       <span class="font-label text-primary uppercase tracking-[0.3em] text-xs block mb-4">Todo listo</span>
       <h1 class="text-3xl md:text-6xl font-black uppercase tracking-tighter italic leading-none mb-4">¡Bienvenido al sistema!</h1>
-      <p class="text-on-surface-variant text-base md:text-xl max-w-xl mx-auto">Recibimos toda tu información. En las próximas <strong class="text-white">24–48 horas</strong> te contactamos por WhatsApp para arrancar.</p>
+      <p class="text-on-surface-variant text-base md:text-xl max-w-xl mx-auto">Recibimos toda tu información. Tu perfil ya está creado en nuestra plataforma.</p>
     </div>
-    <div class="bg-surface-container-highest border border-primary/20 p-6 md:p-10 text-left space-y-4">
+
+    <!-- ACCESS LINK (shown when token is received) -->
+    <div id="access-link-box" class="hidden bg-surface-container-highest border border-primary/40 p-6 md:p-10 text-left space-y-4">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="font-label text-primary uppercase tracking-widest text-xs">Tu acceso personal</span>
+      </div>
+      <p class="text-sm text-on-surface-variant">Guarda este link — es único y personal. Te lleva directo a tu dashboard con tus métricas, reportes y chat con el equipo.</p>
+      <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+        <input id="access-url-input" type="text" readonly class="agx-input flex-1 text-primary cursor-pointer" onclick="this.select()" style="font-size:11px;letter-spacing:0.05em;"/>
+        <button type="button" onclick="copyAccessLink()" class="bg-primary text-white font-black uppercase tracking-widest text-xs px-6 py-3 hover:bg-primary-dim transition-colors whitespace-nowrap" id="copy-btn">Copiar link</button>
+      </div>
+      <a id="access-link-btn" href="#" target="_blank" class="inline-flex items-center gap-2 text-white font-black uppercase tracking-widest text-xs px-6 py-3 border border-primary hover:bg-primary/10 transition-colors">
+        Entrar al sistema →
+      </a>
+    </div>
+
+    <div class="bg-surface-container-highest border border-outline-variant p-6 md:p-10 text-left space-y-4">
       <h3 class="font-black uppercase text-base">¿Qué sigue?</h3>
       <div class="space-y-3">
         <div class="flex items-start gap-4"><span class="font-label text-primary font-bold text-sm">01</span><p class="text-sm text-on-surface-variant font-bold">Revisamos tu información y preparamos el diagnóstico inicial</p></div>
-        <div class="flex items-start gap-4"><span class="font-label text-primary font-bold text-sm">02</span><p class="text-sm text-on-surface-variant font-bold">Te contactamos por WhatsApp para confirmar accesos</p></div>
+        <div class="flex items-start gap-4"><span class="font-label text-primary font-bold text-sm">02</span><p class="text-sm text-on-surface-variant font-bold">Te contactamos por WhatsApp para confirmar accesos a Meta y Google</p></div>
         <div class="flex items-start gap-4"><span class="font-label text-primary font-bold text-sm">03</span><p class="text-sm text-on-surface-variant font-bold">Arrancamos con la construcción de estructura en la Semana 1</p></div>
       </div>
     </div>
@@ -112,6 +128,23 @@ select.agx-input option{background:#1a1a1a;color:#f0f0f0;}
     <div class="step active" id="step-1">
       <div class="mb-8"><h2 class="text-xl md:text-2xl font-black uppercase italic mb-1">Datos básicos</h2><p class="text-on-surface-variant text-xs font-label uppercase tracking-widest">¿Con quién trabajamos?</p></div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="space-y-1 md:col-span-2">
+          <label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-3">Plan que compraste *</label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2" id="plan-comprado">
+            <button type="button" class="option-btn" onclick="selectOption(this,'plan-comprado')">
+              <span class="block font-black text-sm">Sprint</span>
+              <span class="block text-[10px] text-on-surface-variant mt-1">USD 280 / mes</span>
+            </button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'plan-comprado')">
+              <span class="block font-black text-sm">Escalado</span>
+              <span class="block text-[10px] text-on-surface-variant mt-1">USD 650 / mes</span>
+            </button>
+            <button type="button" class="option-btn" onclick="selectOption(this,'plan-comprado')">
+              <span class="block font-black text-sm">Enterprise</span>
+              <span class="block text-[10px] text-on-surface-variant mt-1">Plan personalizado</span>
+            </button>
+          </div>
+        </div>
         <div class="space-y-1 md:col-span-2"><label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-2">Nombre del negocio *</label><input type="text" class="agx-input" placeholder="Ej: Mi Tienda Online" id="negocio"/></div>
         <div class="space-y-1"><label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-2">Tu nombre *</label><input type="text" class="agx-input" placeholder="Nombre y apellido" id="nombre"/></div>
         <div class="space-y-1"><label class="font-label text-[10px] uppercase tracking-widest text-primary block mb-2">Email *</label><input type="email" class="agx-input" placeholder="tu@email.com" id="email"/></div>
@@ -303,6 +336,7 @@ function hideError(){document.getElementById('error-msg').classList.add('hidden'
 
 function validate(){
   if(currentStep===1){
+    if(!document.querySelector('#plan-comprado .selected')){showError('Selecciona el plan que compraste.');return false;}
     if(!document.getElementById('negocio').value.trim()){showError('Ingresa el nombre de tu negocio.');return false;}
     if(!document.getElementById('nombre').value.trim()){showError('Ingresa tu nombre.');return false;}
     if(!document.getElementById('email').value.includes('@')){showError('Ingresa un email válido.');return false;}
@@ -351,73 +385,93 @@ async function submitForm(){
   const btn=document.getElementById('btn-submit');
   btn.textContent='Enviando…';btn.disabled=true;
 
-  const data=new FormData();
-  data.append('negocio',document.getElementById('negocio').value);
-  data.append('nombre',document.getElementById('nombre').value);
-  data.append('email',document.getElementById('email').value);
-  data.append('whatsapp',document.getElementById('whatsapp').value);
-  data.append('pais',document.getElementById('pais').value);
-  data.append('website',document.getElementById('website').value||'N/A');
-  data.append('tipo_negocio',getSelected('tipo-negocio'));
-  data.append('categoria',getSelected('categoria'));
-  data.append('producto',document.getElementById('producto').value);
-  data.append('cliente_ideal',document.getElementById('cliente-ideal').value||'N/A');
-  data.append('ventas_mes',getSelected('ventas-mes'));
-  data.append('inversion_pauta',getSelected('inversion-pauta'));
-  data.append('plataformas',getCheckedValues('plataformas-checks')||'Ninguna especificada');
-  data.append('roas_actual',document.getElementById('roas-actual').value||'N/A');
-  data.append('objetivo_principal',getSelected('objetivo-principal'));
-  data.append('horizonte',getSelected('horizonte'));
-  data.append('mayor_problema',document.getElementById('mayor-problema').value);
-  data.append('stock',getSelected('stock'));
-  data.append('accesos',getCheckedValues('accesos-checks')||'Ninguno especificado');
-  data.append('agencia_previa',getSelected('agencia-previa'));
-  data.append('como_llego',getSelected('como-llego'));
-  data.append('notas',document.getElementById('notas').value||'Sin notas');
-  data.append('plan', new URLSearchParams(window.location.search).get('plan')||'No especificado');
-  data.append('fuente','bia-agency-onboarding');
+  const planSeleccionado=getSelected('plan-comprado').toLowerCase().split(' ')[0]||new URLSearchParams(window.location.search).get('plan')||'sprint';
 
+  // 1. BIA OPS — crea perfil y genera token de acceso
+  let accessToken=null;
   try{
-    await fetch('https://iagentflow.pro/api/v1/leads/website_form',{method:'POST',body:data});
-  }catch(e){console.warn('CRM error:',e);}
+    const biaRes=await fetch('https://app.biagency.site/api/intake',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        negocio:document.getElementById('negocio').value,
+        nombre:document.getElementById('nombre').value,
+        email:document.getElementById('email').value,
+        whatsapp:document.getElementById('whatsapp').value,
+        pais:document.getElementById('pais').value,
+        website:document.getElementById('website').value||'',
+        plan:planSeleccionado,
+        tipo_negocio:getSelected('tipo-negocio'),
+        categoria:getSelected('categoria'),
+        producto:document.getElementById('producto').value,
+        cliente_ideal:document.getElementById('cliente-ideal').value||'',
+        ventas_mes:getSelected('ventas-mes'),
+        inversion_pauta:getSelected('inversion-pauta'),
+        plataformas:getCheckedValues('plataformas-checks')||'',
+        roas_actual:document.getElementById('roas-actual').value||'',
+        objetivo_principal:getSelected('objetivo-principal'),
+        horizonte:getSelected('horizonte'),
+        mayor_problema:document.getElementById('mayor-problema').value,
+        stock:getSelected('stock'),
+        accesos:getCheckedValues('accesos-checks')||'',
+        agencia_previa:getSelected('agencia-previa'),
+        como_llego:getSelected('como-llego'),
+        notas:document.getElementById('notas').value||''
+      })
+    });
+    const biaData=await biaRes.json();
+    if(biaData.ok&&biaData.accessToken) accessToken=biaData.accessToken;
+  }catch(e){console.warn('BIA OPS error:',e);}
 
-  const sheetsData={
-    negocio:document.getElementById('negocio').value,
-    nombre:document.getElementById('nombre').value,
-    email:document.getElementById('email').value,
-    whatsapp:document.getElementById('whatsapp').value,
-    pais:document.getElementById('pais').value,
-    web:document.getElementById('website').value||'',
-    tipoNegocio:getSelected('tipo-negocio'),
-    categorias:getSelected('categoria'),
-    producto:document.getElementById('producto').value,
-    clienteIdeal:document.getElementById('cliente-ideal').value||'',
-    ventasMensuales:getSelected('ventas-mes'),
-    inversionPauta:getSelected('inversion-pauta'),
-    plataformas:getCheckedValues('plataformas-checks')||'',
-    roas:document.getElementById('roas-actual').value||'',
-    objetivo:getSelected('objetivo-principal'),
-    horizonte:getSelected('horizonte'),
-    problema:document.getElementById('mayor-problema').value,
-    stock:getSelected('stock'),
-    accesos:getCheckedValues('accesos-checks')||'',
-    agenciaPrevia:getSelected('agencia-previa'),
-    comoLlego:getSelected('como-llego'),
-    notas:document.getElementById('notas').value||''
-  };
+  // 2. CRM legacy
+  const frmData=new FormData();
+  frmData.append('negocio',document.getElementById('negocio').value);
+  frmData.append('nombre',document.getElementById('nombre').value);
+  frmData.append('email',document.getElementById('email').value);
+  frmData.append('whatsapp',document.getElementById('whatsapp').value);
+  frmData.append('pais',document.getElementById('pais').value);
+  frmData.append('plan',planSeleccionado);
+  frmData.append('fuente','bia-agency-onboarding');
+  try{await fetch('https://iagentflow.pro/api/v1/leads/website_form',{method:'POST',body:frmData});}catch(e){console.warn('CRM error:',e);}
+
+  // 3. Google Sheets backup
   try{
     await fetch('https://script.google.com/macros/s/AKfycbzf5OFkRlm4iTzqIHxcRONTU6-W0mySXNWOs_TWKzJSyF8t8jO-SQ0ThyghfDDycW45/exec',{
-      method:'POST',
-      mode:'no-cors',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(sheetsData)
+      method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        negocio:document.getElementById('negocio').value,nombre:document.getElementById('nombre').value,
+        email:document.getElementById('email').value,whatsapp:document.getElementById('whatsapp').value,
+        pais:document.getElementById('pais').value,plan:planSeleccionado,
+        web:document.getElementById('website').value||'',tipoNegocio:getSelected('tipo-negocio'),
+        categorias:getSelected('categoria'),producto:document.getElementById('producto').value,
+        clienteIdeal:document.getElementById('cliente-ideal').value||'',
+        ventasMensuales:getSelected('ventas-mes'),inversionPauta:getSelected('inversion-pauta'),
+        plataformas:getCheckedValues('plataformas-checks')||'',roas:document.getElementById('roas-actual').value||'',
+        objetivo:getSelected('objetivo-principal'),horizonte:getSelected('horizonte'),
+        problema:document.getElementById('mayor-problema').value,stock:getSelected('stock'),
+        accesos:getCheckedValues('accesos-checks')||'',agenciaPrevia:getSelected('agencia-previa'),
+        comoLlego:getSelected('como-llego'),notas:document.getElementById('notas').value||''
+      })
     });
   }catch(e){console.warn('Sheets error:',e);}
 
-  showSuccess();
+  showSuccess(accessToken);
 }
 
-function showSuccess(){
+function copyAccessLink(){
+  const input=document.getElementById('access-url-input');
+  input.select();navigator.clipboard.writeText(input.value).catch(()=>{});
+  const btn=document.getElementById('copy-btn');
+  btn.textContent='¡Copiado!';setTimeout(()=>btn.textContent='Copiar link',2000);
+}
+
+function showSuccess(accessToken){
+  if(accessToken){
+    const url='https://app.biagency.site/acceso/'+encodeURIComponent(accessToken);
+    document.getElementById('access-url-input').value=url;
+    document.getElementById('access-link-btn').href=url;
+    document.getElementById('access-link-box').classList.remove('hidden');
+  }
   document.getElementById('form-section').classList.add('hidden');
   document.getElementById('success-screen').classList.remove('hidden');
   launchConfetti();window.scrollTo({top:0,behavior:'smooth'});
